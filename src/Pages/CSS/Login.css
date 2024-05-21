@@ -62,3 +62,7 @@ font-size: 20px;
     font-weight: 400;
     cursor: pointer;
 }
+
+.loginsignup-login span {
+    cursor: pointer;
+}
