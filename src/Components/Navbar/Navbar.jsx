@@ -21,7 +21,7 @@ const {getTotalCartItems} =useContext(ShopContext);
         <li onClick={()=>{setMenu('accessories')}}><Link style={{ textDecoration: 'none'}} to='/accessories'>Accessories</Link>{menu==='accessories'?<h/>:<></>}</li>
       </ul>
       <div className='nav-login-cart'>
-        <Link style={{ textDecoration: 'none'}} to='/login'><button>Login</button></Link>
+        <Link style={{ textDecoration: 'none'}} to='/signup'><button>Login</button></Link>
         <Link style={{ textDecoration: 'none'}} to='/cart'><img src={cart_icon} alt="" style={{ width: '40px', height: 'auto' }} /></Link>
         <div className='nav-cart-count'>{getTotalCartItems()}</div>
       </div>
