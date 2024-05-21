@@ -16,7 +16,7 @@ const LoginSignup = () => {
       };
   
       // Wysyłamy żądanie POST do endpointu Rejestracji na localhost:5284/Register
-      const response = await axios.post('http://localhost:5284/users', userData);
+      const response = await axios.post('http://localhost:5284/users/register', userData);
   
       // Obsługujemy odpowiedź
       console.log('Odpowiedź z serwera:', response.data);
