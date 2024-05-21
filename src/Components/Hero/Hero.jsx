@@ -13,7 +13,7 @@ const Hero = () => {
             <p>Inspire and breathe new life into your belongings!</p>
         </div>
         <div className='hero-login-btn'>
-        <Link style={{ textDecoration: 'none'}} to='/login'><button>Create Your Account!</button></Link>
+        <Link style={{ textDecoration: 'none'}} to='/signup'><button>Create Your Account!</button></Link>
         </div>
        
         <div className="hero-right">

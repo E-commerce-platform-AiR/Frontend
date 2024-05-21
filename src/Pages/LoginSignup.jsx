@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CSS/LoginSignup.css';
 import axios from 'axios';
 
@@ -7,7 +8,15 @@ const LoginSignup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+
   const handleSignup = async () => {
+
     try {
       const userData = {
         userName: username,
@@ -36,7 +45,7 @@ const LoginSignup = () => {
           <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button onClick={handleSignup}>Continue</button> {/* Wywołujemy funkcję handleSignup po kliknięciu przycisku */}
-        <p className="loginsignup-login">Already have an account? <span>Login here</span></p>
+        <p className="loginsignup-login">Already have an account? <span onClick={handleLoginClick}>Login here</span></p>
         <div className="loginsignup-agree">
           <input type="checkbox" name='' id='' />
           <p>By continuing, I accept the terms of use & privacy policy.</p>
