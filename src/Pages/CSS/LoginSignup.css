@@ -11,7 +11,7 @@
 
 .loginsignup-container {
     max-width: 400px; /* Maksymalna szerokość kontenera */
-    max-height: 400px; /* Maksymalna wysokość kontenera */
+    max-height: 460px; /* Maksymalna wysokość kontenera */
     width: 90%; /* Dostosowanie szerokości do zawartości */
     height: auto; /* Automatyczne dostosowanie wysokości do zawartości */
     background: white;

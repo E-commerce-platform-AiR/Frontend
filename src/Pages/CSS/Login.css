@@ -66,3 +66,7 @@ font-size: 20px;
 .loginsignup-login span {
     cursor: pointer;
 }
+
+.error-message {
+    color: red;
+  }
