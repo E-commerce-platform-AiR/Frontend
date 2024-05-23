@@ -76,3 +76,47 @@
     background: #82C5A6;
     color: white;
 }
+
+
+.nav-account {
+    position: relative;
+  }
+  
+  .account-menu {
+    position: absolute;
+    top: 50px; /* Adjust this value to position the menu below the icon */
+    right:-2px;
+    
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure the menu is on top of other elements */
+    visibility: hidden; /* Initially hidden */
+    opacity: 0; /* Initially transparent */
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+    background-color: #FFFDF9;
+  }
+  
+  .nav-account:hover .account-menu {
+    visibility: visible; /* Make visible when hovering */
+    opacity: 1; /* Fully opaque when hovering */
+  }
+  
+  .account-menu a, .account-menu .logout-button {
+    text-decoration: none;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-align: center;
+
+  }
+  
+  .account-menu a:hover, .account-menu .logout-button:hover {
+    background-color: #f0f0f0;
+    border-radius: 50px;
+  }

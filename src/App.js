@@ -8,6 +8,10 @@ import LoginSignup from './Pages/LoginSignup';
 import Login from './Pages/Login';
 import Product from './Pages/Product';
 import Footer from './Components/Footer/Footer';
+import AddProduct from './Components/AddProduct/AddProduct';
+import ListProduct from './Components/ListProduct/ListProduct';
+
+
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -57,6 +61,8 @@ function App() {
             setUserLoggedIn(loggedIn);
             localStorage.setItem('userLoggedIn', loggedIn ? 'true' : 'false');
           }} />} />
+          <Route path='/addproduct' element={<AddProduct/>}/>
+          <Route path='/myproducts' element={<ListProduct/>}/> 
         </Routes>
       </BrowserRouter>
       <Footer />
