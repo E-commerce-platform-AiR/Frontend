@@ -1,17 +1,26 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import './Navbar.css';
 import logo from '../Assets/logo3.png';
 import cart_icon from '../Assets/shopping-cart.png';
-import account_icon from '../Assets/user.png'
-import { Link, useNavigate } from 'react-router-dom';
+import account_icon from '../Assets/user.png';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShopContext } from '../../Context/ShopContext';
 
 const Navbar = ({ userLoggedIn, handleLogout }) => {
   const [menu, setMenu] = useState('shop');
+  const [userId, setUserId] = useState('');
   const { getTotalCartItems } = useContext(ShopContext);
   const navigate = useNavigate();
   const [accountMenuVisible, setAccountMenuVisible] = useState(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const userIdFromQuery = params.get('userId');
+    if (userIdFromQuery) {
+      setUserId(userIdFromQuery);
+    }
+  }, [location]);
 
   const handleLogoutClick = () => {
     handleLogout(); // Wywołanie funkcji handleLogout przekazanej jako props
@@ -25,7 +34,7 @@ const Navbar = ({ userLoggedIn, handleLogout }) => {
       </div>
       <ul className='nav-menu'>
         <li onClick={() => { setMenu('shop') }}>
-          <Link style={{ textDecoration: 'none' }} to='/'>Shop</Link>
+          <Link style={{ textDecoration: 'none' }} to={`/?userId=${userId}`}>Shop</Link>
           {menu === 'shop' ? <h /> : <></>}
         </li>
         {/* Pozostałe linki menu */}
@@ -47,26 +56,23 @@ const Navbar = ({ userLoggedIn, handleLogout }) => {
               <img src={cart_icon} alt="" style={{ width: '40px', height: 'auto' }} />
             </Link>
             <div className='nav-cart-count'>{getTotalCartItems()}</div>
-            
           </>
         )}
-</div>
-        <div 
-                  className='nav-account' 
-                  onMouseEnter={() => setAccountMenuVisible(true)} 
-                  onMouseLeave={() => setAccountMenuVisible(false)}
-                >
-                  <img src={account_icon} alt="" style={{ width: '40px', height: 'auto', cursor: 'pointer' }} />
-                  {accountMenuVisible && (
-                    <div className='account-menu'>
-                      <Link style={{ textDecoration: 'none'}} to='/addproduct'>Add Product</Link>
-                      <Link style={{ textDecoration: 'none'}} to='/myproducts'>My Products</Link>
-                      <button onClick={handleLogout} className='logout-button'>Logout</button>
-                    </div>
-                  )}
-                </div>
-
-      
+      </div>
+      <div 
+        className='nav-account' 
+        onMouseEnter={() => setAccountMenuVisible(true)} 
+        onMouseLeave={() => setAccountMenuVisible(false)}
+      >
+        <img src={account_icon} alt="" style={{ width: '40px', height: 'auto', cursor: 'pointer' }} />
+        {accountMenuVisible && (
+          <div className='account-menu'>
+            <Link style={{ textDecoration: 'none'}} to={`/addproduct?userId=${userId}`}>Add Product</Link>
+            <Link style={{ textDecoration: 'none'}} to={`/myproducts?userId=${userId}`}>My Products</Link>
+            <button onClick={handleLogout} className='logout-button'>Logout</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
