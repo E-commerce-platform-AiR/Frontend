@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
@@ -10,6 +11,8 @@ import Product from './Pages/Product';
 import Footer from './Components/Footer/Footer';
 import AddProduct from './Components/AddProduct/AddProduct';
 import ListProduct from './Components/ListProduct/ListProduct';
+import Offers from './Components/Offers/Offers'; // Importuj widok Offers
+import OfferDetails from './Pages/OfferDetails'; // Importuj widok OfferDetails
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -45,6 +48,8 @@ function App() {
         <Navbar userLoggedIn={userLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path='/' element={<Shop userLoggedIn={userLoggedIn} />} />
+          <Route path='/offers' element={<Offers />} /> {/* Dodaj ścieżkę do widoku Offers */}
+          <Route path='/offers/:offerId' element={<OfferDetails />} /> {/* Dodaj ścieżkę do widoku OfferDetails */}
           <Route path='/mens' element={<ShopCategory category='men' />} />
           <Route path='/womens' element={<ShopCategory category='women' />} />
           <Route path='/kids' element={<ShopCategory category='kids' />} />

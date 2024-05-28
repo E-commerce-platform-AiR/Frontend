@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Offers.css';
-import allProducts from '../Assets/all_products';
-
-import Item from '../Item/Item'
 
 const Offers = () => {
   const [categories, setCategories] = useState([{id: "", name: "Category"}]);
@@ -29,7 +27,13 @@ const Offers = () => {
 
   const changeHandler = (e) => {
     setSelectedCategory(e.target.value);
-  }
+  };
+
+  const addToCart = (event, offerId) => {
+    event.stopPropagation();
+    console.log(`Dodano ofertę o id: ${offerId} do koszyka`);
+    // Tutaj dodaj logikę dodawania do koszyka
+  };
 
   return (
     <div className='offers'>
@@ -44,11 +48,16 @@ const Offers = () => {
         <h2>Offers</h2>
         <div className='offers-item'>
           {offers.map((offer, index) => (
-            <div key={index}>
-              <h3>{offer.title}</h3>
-              <p>{offer.description}</p>
-              <p>{offer.price} zł</p>
-              <img src={offer.logo} alt={offer.title} />
+            <div key={index} className="offer-card">
+              <Link to={`/offers/${offer.id}`} className="offer-link">
+                <img src={offer.logo} alt={offer.title} className="offer-image" />
+                <div className="offer-details">
+                  <h3>{offer.title}</h3>
+                  <p>{offer.description}</p>
+                  <p className="price">{offer.price} zł</p>
+                </div>
+              </Link>
+              <button className='addToCartMain-button' onClick={(event) => addToCart(event, offer.id)}>Add to cart</button>
             </div>
           ))}
         </div>
@@ -56,4 +65,4 @@ const Offers = () => {
   )
 }
 
-export default Offers
+export default Offers;
