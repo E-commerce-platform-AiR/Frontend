@@ -12,7 +12,7 @@ const Shop = ({ userLoggedIn }) => {
     <div>
       {!userLoggedIn && <Hero />}
       <Offers />
-      {userLoggedIn && <p>Welcome back, user with ID: {userId}</p>}
+      {/* {userLoggedIn && <p>Welcome back, user with ID: {userId}</p>} */}
     </div>
   );
 }

@@ -3,31 +3,37 @@ import { useLocation } from 'react-router-dom';
 import './AddProduct.css';
 import upload_area from '../Assets/upload.png';
 
-const AddProduct = ({ userId }) => {
+const AddProduct = () => {
   const [image, setImage] = useState(false);
+  const [categories, setCategories] = useState([{id: "", name: "Category"}]);
+  const [statusMessage, setStatusMessage] = useState("");
   
   //zeby nowy produkt sie wpisal do database
   const [productDetails, setProductDetails] = useState({
     name: "",
     image: "",
-    category: "women",
+    category: "",
     price: "",
-    userId: userId || ""
+    description: "",
+    image: "",
+    userId: ""
   });
 
   const location = useLocation();
 
   useEffect(() => {
-    if (userId) {
-      setProductDetails(prevDetails => ({ ...prevDetails, userId }));
-    } else {
-      const params = new URLSearchParams(location.search);
-      const userIdFromQuery = params.get('userId');
-      if (userIdFromQuery) {
-        setProductDetails(prevDetails => ({ ...prevDetails, userId: userIdFromQuery }));
-      }
+    const params = new URLSearchParams(location.search);
+    const userIdFromQuery = params.get('userId');
+    if (userIdFromQuery) {
+      setProductDetails(prevDetails => ({ ...prevDetails, userId: userIdFromQuery }));
     }
-  }, [location, userId]);
+  }, [location]);
+
+  useEffect(() => {
+    fetch('http://localhost:5047/categories')
+      .then(response => response.json())
+      .then(data => setCategories([{id: "", name: "Category"}, ...data]));
+  }, []);
 
   const imageHandler = (e) => {
     setImage(e.target.files[0]);
@@ -37,36 +43,31 @@ const AddProduct = ({ userId }) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   }
 
-  const Add_Product = async () => {
-    console.log(productDetails);
-    //gdy klikamy add dane sa przesylane do backendu
-    let responseData;
-    let product = productDetails;
+  const addProduct = async () => {
+    if (productDetails.category === "") {
+      alert('Proszę wybrać kategorię');
+      return;
+    }
+    const offer = {
+      Title: productDetails.name,
+      Category: parseInt(productDetails.category),
+      Description: productDetails.description,
+      Logo: productDetails.image,
+      Price: parseFloat(productDetails.price)
+    };
 
-    let formData = new FormData();
-    formData.append('product', image);
-
-    await fetch('http://localhost:3000/upload', {
+    const response = await fetch(`http://localhost:5047/users/${productDetails.userId}/offers`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: formData,
-    }).then((resp) => resp.json()).then((data) => { responseData = data });
+      body: JSON.stringify(offer)
+    });
 
-    if (responseData.success) {
-      product.image = responseData.image_url;
-      console.log(product);
-      await fetch('http://localhost:3000/addproduct', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-      }).then((resp) => resp.json()).then((data) => {
-        data.success ? alert("Product Added") : alert("Failed");
-      });
+    if (response.ok) {
+      setStatusMessage("Produkt dodany");
+    } else {
+      setStatusMessage("Wystąpił problem");
     }
   }
 
@@ -77,6 +78,12 @@ const AddProduct = ({ userId }) => {
           <p>Product title</p>
           <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here' />
         </div>
+        <div className="addproduct-description">
+          <div className="addproduct-itemfield">
+            <p>Description</p>
+            <input value={productDetails.description} onChange={changeHandler} type="text" name="description" placeholder='Type here' />
+          </div>
+        </div>
         <div className="addproduct-price">
           <div className="addproduct-itemfield">
             <p>Price</p>
@@ -86,11 +93,16 @@ const AddProduct = ({ userId }) => {
         <div className="addproduct-itemfield">
           <p>Product Category</p>
           <select value={productDetails.category} onChange={changeHandler} name="category" className='addproduct-selector'>
-            <option value="women">Women</option>
-            <option value="men">Men</option>
-            <option value="kids">Kids</option>
-            <option value="accessories">Accessories</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category.id}>{category.name}</option>
+            ))}
           </select>
+        </div>
+        <div className="addproduct-itemuri">
+          <div className="addproduct-itemfield">
+            <p>Image</p>
+            <input value={productDetails.image} onChange={changeHandler} type="text" name="image" placeholder='Paste here' />
+          </div>
         </div>
         <div className="addproduct-itemfield">
           <label htmlFor="file-input">
@@ -98,7 +110,7 @@ const AddProduct = ({ userId }) => {
           </label>
           <input onChange={imageHandler} type="file" name='image' id='file-input' hidden />
         </div>
-        <button onClick={Add_Product} className='addproduct-button'>ADD</button>
+        <button onClick={addProduct} className='addproduct-button'>ADD</button>
       </div>
     </div>
   )
