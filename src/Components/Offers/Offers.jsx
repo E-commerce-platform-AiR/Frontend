@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import './Offers.css';
-
+import { CartContext } from '../../CartContext'; // Importuj CartContext
 const Offers = () => {
   const [categories, setCategories] = useState([{id: "", name: "Category"}]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [offers, setOffers] = useState([]);
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const userId = params.get('userId');
+  const { totalCartItems, setTotalCartItems } = useContext(CartContext); // Użyj CartContext
 
   useEffect(() => {
     fetch('http://localhost:5047/categories')
@@ -31,9 +35,32 @@ const Offers = () => {
 
   const addToCart = (event, offerId) => {
     event.stopPropagation();
-    console.log(`Dodano ofertę o id: ${offerId} do koszyka`);
-    // Tutaj dodaj logikę dodawania do koszyka
+    fetch(`http://localhost:5252/cart/${userId}?offerId=${offerId}`, {
+      method: 'PATCH',
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      // Po dodaniu produktu do koszyka, wykonaj kolejne żądanie GET, aby zaktualizować liczbę produktów w koszyku
+      fetch(`http://localhost:5252/cart/items/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          // Zakładamy, że endpoint zwraca liczbę produktów w koszyku
+          if (typeof data === 'number') {
+            setTotalCartItems(data);
+          } else {
+            console.error('Unexpected data format:', data);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   };
+  
 
   return (
     <div className='offers'>
@@ -49,7 +76,7 @@ const Offers = () => {
         <div className='offers-item'>
           {offers.map((offer, index) => (
             <div key={index} className="offer-card">
-              <Link to={`/offers/${offer.id}`} className="offer-link">
+              <Link to={`/offers/${offer.id}?userId=${userId}`} className="offer-link">
                 <img src={offer.logo} alt={offer.title} className="offer-image" />
                 <div className="offer-details">
                   <h3>{offer.title}</h3>

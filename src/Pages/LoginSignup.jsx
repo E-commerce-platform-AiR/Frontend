@@ -10,7 +10,11 @@ const LoginSignup = ({setUserLoggedIn}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const redirectToShop = (userId) => {
+  const redirectToShop = async (userId) => {
+    // Wywołanie endpointu po pomyślnej rejestracji
+    await fetch(`http://localhost:5252/cart/${userId}`, {
+      method: 'POST',
+    });
     navigate(`/?userId=${userId}`);
     setUserLoggedIn(true); // Ustawienie stanu zalogowania na true
   };
