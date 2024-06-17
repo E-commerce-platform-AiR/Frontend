@@ -10,7 +10,7 @@ import Product from './Pages/Product';
 import Footer from './Components/Footer/Footer';
 import AddProduct from './Components/AddProduct/AddProduct';
 import Admin from './Pages/Admin';
-import AllUsers from './Components/AllUsers/AllUsers'
+import AllUsers from './Components/AllUsers/AllUsers';
 import ListProduct from './Components/ListProduct/ListProduct';
 import ListProductAdmin from './Components/ListProductAdmin/ListProductAdmin';
 import Offers from './Components/Offers/Offers';
@@ -52,8 +52,8 @@ function App() {
           <Navbar userLoggedIn={userLoggedIn} handleLogout={handleLogout} />
           <Routes>
             <Route path='/' element={<Shop userLoggedIn={userLoggedIn} />} />
-            <Route path='/offers' element={<Offers />} /> {/* Dodaj ścieżkę do widoku Offers */}
-            <Route path='/offers/:offerId' element={<OfferDetails />} /> {/* Dodaj ścieżkę do widoku OfferDetails */}
+            <Route path='/offers' element={<Offers userId={userId} />} />
+            <Route path='/offers/:offerId' element={<OfferDetails />} />
             <Route path='/mens' element={<ShopCategory category='men' />} />
             <Route path='/womens' element={<ShopCategory category='women' />} />
             <Route path='/kids' element={<ShopCategory category='kids' />} />
@@ -62,8 +62,8 @@ function App() {
               <Route path=':productId' element={<Product />} />
             </Route>
             <Route path='/cart' element={<Cart />} />
-            <Route path='/admin' element={<Admin userId={userId}/>} />
-            <Route path='/users' element={<AllUsers userId={userId}/>}/>
+            <Route path='/admin' element={<Admin userId={userId} />} />
+            <Route path='/users' element={<AllUsers userId={userId} />} />
             <Route path='/signup' element={<LoginSignup setUserLoggedIn={(loggedIn) => {
               setUserLoggedIn(loggedIn);
               localStorage.setItem('userLoggedIn', loggedIn ? 'true' : 'false');

@@ -83,7 +83,7 @@ const Navbar = ({ userLoggedIn, handleLogout }) => {
         onMouseEnter={() => setAccountMenuVisible(true)}
         onMouseLeave={() => setAccountMenuVisible(false)}
       >
-        <img src={account_icon} alt="" style={{ width: '40px', height: 'auto', cursor: 'pointer' }} />
+        <img src={account_icon} alt="" style={{ width: '40px', height: 'auto', cursor: 'pointer', marginTop: '10px' }} />
         {accountMenuVisible && (
           <div className='account-menu'>
             <Link style={{ textDecoration: 'none' }} to={`/addproduct?userId=${userId}`}>Add Product</Link>

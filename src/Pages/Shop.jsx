@@ -11,8 +11,7 @@ const Shop = ({ userLoggedIn }) => {
   return (
     <div>
       {!userLoggedIn && <Hero />}
-      <Offers />
-      {/* {userLoggedIn && <p>Welcome back, user with ID: {userId}</p>} */}
+      <Offers userId={userId} /> {/* Przekazujemy userId do Offers */}
     </div>
   );
 }

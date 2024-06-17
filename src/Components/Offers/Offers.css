@@ -1,10 +1,10 @@
 /* Offers.css */
 body {
-    font-family: Arial, sans-serif; /* Zmiana czcionki na Arial */
+    font-family: Arial, sans-serif; /* Consistent font family */
 }
 
-.offers{
-    display:flex;
+.offers {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -14,18 +14,34 @@ body {
     margin-bottom: 15px;
 }
 
-.offers h2{
-    justify-content: center;
-    align-items: center;
-    font-weight: 400;
-    font-size: 1.5rem; /* Zmniejszenie rozmiaru czcionki */
+.offers-search-and-select {
+    display: flex; /* Using flex to place children side by side */
+    width: 100%; /* Full width */
+    justify-content: center; /* Center the children horizontally */
+    gap: 10px; /* Space between the search input and the select box */
 }
 
-.offers-item{
+.offers-search-input, .addproduct-selector {
+    flex: 1; /* Both elements take equal space */
+    padding: 10px 15px; /* Padding for better usability */
+    border: 2px solid #ccc; /* Solid border with a moderate thickness */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 1.2rem; /* Larger font size for better readability */
+    outline: none; /* Removing the outline on focus */
+}
+
+.offers-search-input:focus, .addproduct-selector:focus {
+    border-color: #62b991; /* Highlight focus with a color change */
+}
+
+.offers h2 {
+    font-weight: 400;
+    font-size: 1.5rem; /* Adjusted font size */
+}
+
+.offers-item {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); /* Elastyczne kolumny */
-    align-items: center;
-    justify-content: center;
+    grid-template-columns: repeat(4, 1fr); /* Responsive columns */
     gap: 20px;
 }
 
@@ -38,21 +54,20 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px; /* Zmniejszenie odstępu między elementami */
+    gap: 5px;
     padding: 10px;
-    border-radius: 5px; 
-    background: #EFDCCE; /* Kolor tła */
-    width: 200px; /* Szerokość panelu oferty */
-    height: 400px; /* Wysokość panelu oferty */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Cień dla panelu */
-    overflow: hidden; /* Ukrywa nadmiar treści */
+    border-radius: 5px;
+    background: #EFDCCE;
+    width: 200px; /* Fixed width */
+    height: 400px; /* Fixed height */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
 }
 
 .offer-image {
     width: 100%;
     height: 150px;
     object-fit: cover;
-    margin-top: auto; /* Obrazek przyklejony do dolnej części panelu */
 }
 
 .offer-details {
@@ -64,17 +79,14 @@ body {
 
 .price {
     font-weight: bold;
-    margin-top: auto; /* Cena przyklejona do dolnej części panelu */
 }
 
 .addToCartMain-button {
     width: 120px;
     height: 30px;
-    outline: none;
-    border: none;
     border-radius: 75px;
     color: whitesmoke;
-    font-family: poppins;
+    font-family: Poppins, sans-serif;
     font-size: 16px;
     font-weight: 500;
     background: #62b991;

@@ -61,7 +61,7 @@ const AllUsers = () => {
         <div className="allusers-format-main">
           <p>Username</p>
           <p>Email</p>
-          <p>Remove</p>
+          <p>Action</p>
         </div>
         <div className="allusers-listallusers">
           <hr />
