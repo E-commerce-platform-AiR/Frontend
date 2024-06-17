@@ -23,7 +23,6 @@ const Navbar = ({ userLoggedIn, handleLogout }) => {
   }, [location]);
 
   useEffect(() => {
-    // Sprawdź, czy userId jest w formacie GUID
     const isGuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(userId);
     if (isGuid) {
       fetch(`http://localhost:5252/cart/items?userId=${userId}`)
@@ -89,6 +88,7 @@ const Navbar = ({ userLoggedIn, handleLogout }) => {
           <div className='account-menu'>
             <Link style={{ textDecoration: 'none' }} to={`/addproduct?userId=${userId}`}>Add Product</Link>
             <Link style={{ textDecoration: 'none' }} to={`/myproducts?userId=${userId}`}>My Products</Link>
+            {/* <Link style={{ textDecoration: 'none' }} to={`/myproducts?userId=${userId}`}>My Products</Link> */}
             <button onClick={handleLogout} className='logout-button'>Logout</button>
           </div>
         )}

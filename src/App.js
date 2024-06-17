@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './Components/Navbar/Navbar';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Cart from './Pages/Cart';
@@ -9,10 +9,13 @@ import Login from './Pages/Login';
 import Product from './Pages/Product';
 import Footer from './Components/Footer/Footer';
 import AddProduct from './Components/AddProduct/AddProduct';
+import Admin from './Pages/Admin';
+import AllUsers from './Components/AllUsers/AllUsers'
 import ListProduct from './Components/ListProduct/ListProduct';
-import Offers from './Components/Offers/Offers'; // Importuj widok Offers
-import OfferDetails from './Pages/OfferDetails'; // Importuj widok OfferDetails
-import { CartProvider } from './CartContext'; // Importuj CartProvider
+import ListProductAdmin from './Components/ListProductAdmin/ListProductAdmin';
+import Offers from './Components/Offers/Offers';
+import OfferDetails from './Pages/OfferDetails';
+import { CartProvider } from './CartContext';
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -22,7 +25,7 @@ function App() {
     const loggedIn = localStorage.getItem('userLoggedIn') === 'true';
     const storedUserId = localStorage.getItem('userId');
     setUserLoggedIn(loggedIn);
-    if (storedUserId) setUserId(storedUserId);
+    if (loggedIn && storedUserId) setUserId(storedUserId);
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
@@ -59,6 +62,8 @@ function App() {
               <Route path=':productId' element={<Product />} />
             </Route>
             <Route path='/cart' element={<Cart />} />
+            <Route path='/admin' element={<Admin userId={userId}/>} />
+            <Route path='/users' element={<AllUsers userId={userId}/>}/>
             <Route path='/signup' element={<LoginSignup setUserLoggedIn={(loggedIn) => {
               setUserLoggedIn(loggedIn);
               localStorage.setItem('userLoggedIn', loggedIn ? 'true' : 'false');
@@ -67,13 +72,14 @@ function App() {
               setUserLoggedIn(loggedIn);
               localStorage.setItem('userLoggedIn', loggedIn ? 'true' : 'false');
               if (loggedIn) {
-                const userId = // get userId after login
+                const userId = localStorage.getItem('userId');
                 setUserId(userId);
                 localStorage.setItem('userId', userId);
               }
             }} />} />
             <Route path='/addproduct' element={<AddProduct userId={userId} />} />
             <Route path='/myproducts' element={<ListProduct userId={userId} />} />
+            <Route path='/listofproductsadmin' element={<ListProductAdmin userId={userId} />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>
